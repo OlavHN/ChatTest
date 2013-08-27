@@ -25,10 +25,10 @@ By doing this
 
 Since there is no state each pair only needs two server connections for the duration of the handshake (seconds). Also, server partitioning can be done by url load balancing as the `peerId` is given in the url. i.e:
 
-<code>var signaling_channel = new WebSocket('ws://signalingserver.com/someCommonPeerId');</code>
+<code>var signaling_channel = new WebSocket('ws://signalingserver.com/someCommonPeerId');</code> (Done internalliy by the `<appear-in />` element)
 
 Also, since the resulting chat server is now so simple it doesn't depend on any state outside socket.io and the socket.io store and will thus 'just work' with e.g. redis.
 
 ## How to
 
-This example have two servers: One RTC signaling server (server.js) and one chat room server using the `<appear-in />` element (chat.js).
+This example have two servers: One RTC signaling server (server.js) and one chat room server using the `<appear-in />` element (chat.js). They are completely separate. The chat application uses chat.js while the `<appear-in />` element uses server.js behind the scenes.
