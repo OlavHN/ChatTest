@@ -4,9 +4,9 @@ An example chat application showing how to abstract away PeerConnection as a DOM
 
 ## Why
 
-Since webRTC is still changing quickly, highly coupled to the browser environment and inherently between two instances it makes sense to abstract it away. Web Components seems like an ideal solution as it abstracts DOM elements behind higher level DOM elements. <code><appear-in></appear-in></code> is an attempt at making such an element and it looks like this: <code><appear-in peerId='anId' local=stream remote=stream></appear-in></code>.
+Since webRTC is still changing quickly, highly coupled to the browser environment and inherently between two instances it makes sense to abstract it away. Web Components seems like an ideal solution as it abstracts DOM elements behind higher level DOM elements. `<appear-in></appear-in>` is an attempt at making such an element and it looks like this: `<appear-in peerId='anId' local=stream remote=stream></appear-in>`.
 
-By giving the element an id and a local stream the remote stream will correspond to another <code><appear-in /></code> tag somewhere on the internet.
+By giving the element an id and a local stream the remote stream will correspond to another `<appear-in />` tag somewhere on the internet.
 
 ## How
 
