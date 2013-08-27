@@ -1,0 +1,63 @@
+<!doctype>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <!-- Polyfill for browsers not supporting web components -->
+    <script src="static/polymer.min.js"></script>
+    <!-- Magic extracted from web component (Could also be part of it) -->
+    <script src='static/peer.js'></script>
+
+    <!-- Importing our custom element (Could be from a remote location) -->
+    <link rel="import" href="static/appear-in.html">
+
+    <!-- AppearIn client begin here -->
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+  <body>
+    <script>
+      var socket = io.connect('http://0.0.0.0:8080');
+      var room = location.pathname;
+      var id = null
+      var localStream;
+      navigator.getUserMedia(
+        {video: true, audio: true},
+        function(stream) {
+          localStream = stream;
+
+          socket.emit('join', {room: room}, function(clientIds, myId) {
+            id = myId
+            clientIds.forEach(function(clientId) {
+              addFace(document.body, clientId, clientId + id, localStream);
+            });
+          });
+
+        },
+        function(err) { console.log(err) }
+      );
+
+      function addFace(elem, id, peerId, stream) {
+        var face = new AppearIn();
+        face.id = id;
+        face.peerId = peerId;
+        face.local = stream;
+        elem.appendChild(face);
+      }
+
+      function removeFace(id) {
+        var face = document.getElementById(id);
+        face.remote = null;
+        face.local = null;
+        face.parentNode.removeChild(face);
+      }
+
+      socket.on('joining', function(clientId) {
+        addFace(document.body, clientId, id + clientId, localStream);
+      });
+
+      socket.on('leaving', function(clientId) {
+        removeFace(clientId);
+      });
+    </script>
+  </body>
+</html>

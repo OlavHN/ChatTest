@@ -1,0 +1,46 @@
+<!--<script src='static/peer.js'></script>-->
+
+<polymer-element name="appear-in" attributes="peerId local remote" constructor="AppearIn">
+
+  <template>
+    <video id='window' autoplay src='' />
+  </template>
+
+  <script>
+    Polymer('appear-in', {
+      ready: function() {
+        if (!this.peerId)
+          return;
+
+        this.peer = new Peer(this.peerId);
+
+        var self = this;
+        this.peer.onaddstream = function(stream) {
+          console.log('Changing remote!!');
+          self.remote = stream;
+        }
+      },
+
+      peerIdChanged: function(oldPeerId) {
+        this.peer = new Peer(this.peerId);
+
+        var self = this;
+        this.peer.onaddstream = function(stream) {
+          self.remote = stream;
+        }
+      },
+
+      localChanged: function(oldLocal) {
+        console.log('localChanged', oldLocal, this.local);
+        this.peer.addStream(this.local);
+      },
+
+      remoteChanged: function(oldRemote) {
+        console.log('remoteChanged', oldRemote, this.remote, this);
+        this.$.window.src = URL.createObjectURL(this.remote);
+
+        this.$.window.play();
+      }
+    });
+  </script>
+</polymer-element>
