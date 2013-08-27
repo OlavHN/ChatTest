@@ -18,7 +18,7 @@ By doing this
 <ul>
   <li>webRTC is abstracted away leaving you free to make the service as you want</li>
   <li>The element is a standard DOM element. Gives lots of new flexibility for third party integration</li>
-  <li>The signaling is pure websocket. Handshake can be standardized after RFC 6455</li>
+  <li>The signaling is pure websocket without any libraries on top. Handshake can be standardized after RFC 6455</li>
 </ul>
 
 ## Scalability
@@ -26,6 +26,8 @@ By doing this
 Since there is no state each pair only needs two server connections for the duration of the handshake (seconds). Also, server partitioning can be done by url load balancing as the `peerId` is given in the url. i.e:
 
 <code>var signaling_channel = new WebSocket('ws://signalingserver.com/someCommonPeerId');</code>
+
+Also, since the resulting chat server is now so simple it doesn't depend on any state outside socket.io and the socket.io store and will thus 'just work' with e.g. redis.
 
 ## How to
 
